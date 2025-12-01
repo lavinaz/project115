@@ -13,16 +13,16 @@ public class Main {
     static String[] commodities = {"Gold", "Oil", "Silver", "Wheat", "Copper"};
     static String[] months = {"January","February","March","April","May","June",
             "July","August","September","October","November","December"};
-    public static int[][][] profit=new int[12][28][5];
-
-
-
-
+    public static int[][][] profit=new int[12][28][5];/*static final int MONTHS = 12;
+                                                        static final int DAYS = 28;
+                                                        static final int COMMS = 5;
+                                                        içeren array yazdik
+                                                                                    */
 
     public static void loadData()  { //dosya okuma func
         for (int m = 0; m < 12; m++) //her bir ay icin
         {
-            String fileName = "Data_Files/" + months[m] + ".txt"; //konuma bakiyo (ad değiştirilebilir)
+            String fileName ="Data_Files/" + months[m] + ".txt"; //konuma bakiyo (ad değiştirilebilir)
 
             try (BufferedReader br = new BufferedReader(new FileReader(fileName))) //okuyo
             {
@@ -73,7 +73,23 @@ public class Main {
 
 
     public static String mostProfitableCommodityInMonth(int month) {
-        return "DUMMY";
+        if (month < 0 || month > 11){
+            return "INVALID_MONTH";//hata
+        }
+        int[] sums = new int[5]; //mal sayısı boyutunda arr
+
+        for (int d=0;d<28;d++){
+            for (int c=0;c<5;c++){
+                sums[c] +=profit[month][d][c];//her gündeki her profiti ekliyo
+            }
+        }
+        int mostp = 0;//maks bulma
+        for (int m=1;m<5;m++) {
+            if (sums[m] > sums[mostp])//maks bulma
+            {
+                mostp = m; }  //maks ise degistiriyo
+            }
+        return commodities[mostp] + " " + sums[mostp];
     }
 
     public static int totalProfitOnDay(int month, int day) {
@@ -114,6 +130,6 @@ public class Main {
 
     public static void main(String[] args) {
         loadData();
-        System.out.println("Data loaded – ready for queries");
+        System.out.println("Data loaded – ready for queries "+ mostProfitableCommodityInMonth(2));
     }
 }
