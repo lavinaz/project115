@@ -92,8 +92,17 @@ public class Main {
         return commodities[mostp] + " " + sums[mostp];
     }
 
+
+
     public static int totalProfitOnDay(int month, int day) {
-        return 1234;
+        if (day < 1 || day > 28){
+            return -99999;} //hata
+            if (month < 0 || month > 11){
+                return -99999; }//hata
+        int sum=0;
+        for(int c=0;c<5;c++){
+            sum+=profit[month][day-1][c];}
+        return sum;
     }
 
     public static int commodityProfitInRange(String commodity, int from, int to) {
