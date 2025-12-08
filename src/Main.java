@@ -19,49 +19,42 @@ public class Main {
                                                         içeren array yazdik
                                                                                     */
 
-    public static void loadData()  { //dosya okuma func
-        for (int m = 0; m < 12; m++) //her bir ay icin
-        {
-            String fileName ="Data_Files/" + months[m] + ".txt"; //konuma bakiyo (ad değiştirilebilir)
+    public static void loadData()// dosya okuma func
+        {         for (int m = 0; m < 12; m++)// her bir ay için
+        {String fileName = "Data_Files/"+months[m]+".txt";// konuma bakıyor (ad değiştirilebilir)
+            try {
+                Scanner sc = new Scanner(new File(fileName));// BufferedReader yerine Scanner
 
-            try (BufferedReader br = new BufferedReader(new FileReader(fileName))) //okuyo
-            {
-                String line;
-
-                while ((line = br.readLine()) != null) //her bir line icin
+                while (sc.hasNextLine())// her bir line için
                 {
-                    String[] parts = line.split(",");  //dosyalardaki elemanlar virgülle ayrıldığı için virgül
-                    if (parts.length != 3) continue; //hata ariyo
-
+                    String line = sc.nextLine();
+                    String[] parts = line.split(",");// dosyalardaki elemanlar virgülle ayrıldığı için virgül
+                    if (parts.length!=3) continue;// hata arıyor
                     int day;
                     try {
-                        day = Integer.parseInt(parts[0].trim()); //dayi ayırıyo
-                    } catch (Exception e) //hata
-                    {
-                        continue;
+                        day = Integer.parseInt(parts[0].trim());// day'i ayırıyor
+                    } catch (Exception e)// hata
+                        {  continue;
                     }
-
-                    String commodity = parts[1].trim();  //commodityi ayırıyo
+                    String commodity = parts[1].trim();// commodity'i ayırıyor
                     int profitValue;
                     try {
-                        profitValue = Integer.parseInt(parts[2].trim()); //value yu ayırıyo
-                    } catch (Exception e)  //hata
-                     {
-                        continue;
+                        profitValue = Integer.parseInt(parts[2].trim());// value'yu ayırıyor
+                    } catch (Exception e)// hata
+                        { continue;
                     }
-
-                    int cIndex = getCommodityIndex(commodity);//commodityi (normalde string) int e ceviriyo
-                    if (cIndex == -1) continue; //hata
-                    if (day < 1 || day > 28) continue;//hata
-
-                    profit[m][day - 1][cIndex] = profitValue; //Bir ayın, gününün, malın, profit valuesunu eşitliyo
+                    int cIndex = getCommodityIndex(commodity);// commodity'yi int'e çeviriyor
+                    if (cIndex == -1) continue;// hata
+                    if (day < 1 || day > 28) continue;// hata
+                    profit[m][day - 1][cIndex] = profitValue;// Bir ayın, gününün, malın profit value'sunu eşitliyor
                 }
-
-            } catch (IOException e) {
-
+                sc.close();
+            } catch (Exception e)  // dosya yoksa geç
+                {
             }
         }
     }
+
     private static int getCommodityIndex(String c) {
         for (int i = 0; i < commodities.length; i++) {
             if (commodities[i].equals(c)) return i;
