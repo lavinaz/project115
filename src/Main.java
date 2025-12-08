@@ -105,8 +105,19 @@ public class Main {
         return sum;
     }
 
-    public static int commodityProfitInRange(String commodity, int from, int to) {
-        return 1234;
+    public static int commodityProfitInRange(String commodity, int fromDay, int toDay) {
+        int cIndex = getCommodityIndex(commodity);
+        if (cIndex == -1) return -99999;
+
+        if (fromDay <1||toDay>28||fromDay>toDay){
+            return -99999;
+    }
+        int sum = 0;
+        for (int m = 0; m < 12; m++){
+            for (int d = fromDay - 1; d <= toDay - 1; d++){
+                sum += profit[m][d][cIndex];}
+}
+        return sum;
     }
 
     public static int bestDayOfMonth(int month) {
