@@ -1,9 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 
 
 public class Main {
@@ -136,8 +132,27 @@ public class Main {
         return bestDay;
     }
 
-    public static String bestMonthForCommodity(String comm) {
-        return "DUMMY";
+    public static String bestMonthForCommodity(String commodity) {
+        int cIndex = getCommodityIndex(commodity);
+        if (cIndex == -1){
+         return "INVALID_COMMODITY";} //commodity hatasi -1 döndürdüğü için
+        int bestMonth = 1;
+        int bestProfit = 0;
+        for (int d = 0; d < 28; d++) {
+            bestProfit += profit[0][d][cIndex];
+        }
+
+        for (int m = 1; m < 12; m++) {
+            int summ = 0;
+            for (int d = 0; d < 28; d++) {
+                summ += profit[m][d][cIndex];
+            }
+            if (summ > bestProfit) {
+                bestProfit =summ;
+                bestMonth= m; //array returnledigi icin 0 dan basliyo
+            }
+        }
+        return months[bestMonth]; //return month olmama sebebi stringle calismasi
     }
 
     public static int consecutiveLossDays(String comm) {
