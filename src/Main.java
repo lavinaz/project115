@@ -155,12 +155,36 @@ public class Main {
         return months[bestMonth]; //return month olmama sebebi stringle calismasi
     }
 
-    public static int consecutiveLossDays(String comm) {
-        return 1234;
+    public static int consecutiveLossDays(String commodity) {
+        int cIndex = getCommodityIndex(commodity);
+        if (cIndex ==-1){
+            return -1;}
+        int current =0;
+        int best =0;
+        for (int m =0; m <12; m++)
+            for (int d =0; d <28; d++) {
+                if (profit[m][d][cIndex] <0) {
+                    current++;
+                    if (current > best) best = current;
+                }
+                else {
+                    current =0;
+                }
+            }
+        return best;
     }
 
-    public static int daysAboveThreshold(String comm, int threshold) {
-        return 1234;
+    public static int daysAboveThreshold(String commodity, int threshold){
+        int cIndex =getCommodityIndex(commodity);
+        if (cIndex ==-1){
+            return -1;}
+        int count =0;
+        for (int m =0; m <12;m++)
+            for (int d = 0;d <28;d++){
+                if (profit[m][d][cIndex] > threshold){
+                    count++;}
+            }
+        return count;
     }
 
     public static int biggestDailySwing(int month) {
