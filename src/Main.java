@@ -231,7 +231,28 @@ public class Main {
              return c2+" is better by "+(sum2 - sum1); //else gerek yok cünkü returnlerse bakmiyo diğerlelrine
     }
     public static String bestWeekOfMonth(int month) {
-        return "DUMMY";
+        if (month<0||month>11){
+            return "INVALID_MONTH";
+        }
+        int bestWeek=1;
+        int bestProfit=0;
+        // 1.haftanın toplamı(başlangıç için)
+        for (int d=0;d<7;d++)
+            for (int c=0;c<5;c++)
+                bestProfit+=profit[month][d][c];
+        // Diğer haftalar (2, 3, 4)
+        for (int w=1;w<4;w++) {
+            int sum=0;
+            int start=w*7;
+            for (int d=start;d<start+7;d++)
+                for (int c=0;c<5;c++)
+                    sum+=profit[month][d][c]; //min.value yerine
+            if (sum>bestProfit) {
+                bestProfit=sum;
+                bestWeek=w+1;
+            }
+        }
+        return "Week " +bestWeek;
     }
 
     public static void main(String[] args) {
