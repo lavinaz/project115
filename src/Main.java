@@ -203,7 +203,7 @@ public class Main {
             if (diff<0)  {
                 diff=-diff;// Math.abs yerine(func slaytından alıntı)
             }
-            if (diff > maxSwing){
+            if (diff>maxSwing){
                 maxSwing=diff;
             }
         }
@@ -211,9 +211,25 @@ public class Main {
     }
 
     public static String compareTwoCommodities(String c1, String c2) {
-        return "DUMMY is better by 1234";
+        int i1=getCommodityIndex(c1); //int e ceviriyoruz çünkü arrayde cevirmistik
+        int i2=getCommodityIndex(c2);
+        if (i1==-1||i2==-1) {
+            return "INVALID_COMMODITY";
+        }
+        int sum1=0;
+        int sum2=0;
+        for (int m=0;m<12;m++) {
+            for (int d=0;d<28;d++) {
+                sum1+=profit[m][d][i1];
+                sum2+=profit[m][d][i2];
+            }
+        }
+        if (sum1==sum2){
+            return "Equal"; }
+        if (sum1>sum2) {
+            return c1+" is better by "+(sum1 - sum2); }
+             return c2+" is better by "+(sum2 - sum1); //else gerek yok cünkü returnlerse bakmiyo diğerlelrine
     }
-
     public static String bestWeekOfMonth(int month) {
         return "DUMMY";
     }
