@@ -103,9 +103,9 @@ public class Main {
         for (int i = 0; i < commodities.length; i++) {
             if (commodities[i].equals(commodity)) {
                 cIndex = i;
-                break;
-            }
+                break; }
         }
+
         if (cIndex == -1) return -99999;
         if (fromDay <1||toDay>28||toDay<1||fromDay>toDay){
             return -99999;
