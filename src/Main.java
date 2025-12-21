@@ -107,7 +107,7 @@ public class Main {
             }
         }
         if (cIndex == -1) return -99999;
-        if (fromDay <1||toDay>28||fromDay>toDay){
+        if (fromDay <1||toDay>28||toDay<1||fromDay>toDay){
             return -99999;
     }
         int sum = 0;
