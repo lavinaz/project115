@@ -156,13 +156,13 @@ public class Main {
     }
 
     public static int consecutiveLossDays(String commodity) {
-        int cIndex = getCommodityIndex(commodity);
-        if (cIndex ==-1){
+        int cIndex=getCommodityIndex(commodity);
+        if (cIndex==-1){
             return -1;}
         int current =0;
-        int best =0;
-        for (int m =0; m <12; m++)
-            for (int d =0; d <28; d++) {
+        int best=0;
+        for (int m=0; m <12; m++)
+            for (int d =0;d<28;d++) {
                 if (profit[m][d][cIndex] <0) {
                     current++;
                     if (current > best) best = current;
@@ -175,12 +175,12 @@ public class Main {
     }
 
     public static int daysAboveThreshold(String commodity, int threshold){
-        int cIndex =getCommodityIndex(commodity);
-        if (cIndex ==-1){
+        int cIndex=getCommodityIndex(commodity);
+        if (cIndex==-1){
             return -1;}
-        int count =0;
-        for (int m =0; m <12;m++)
-            for (int d = 0;d <28;d++){
+        int count=0;
+        for (int m=0;m<12;m++)
+            for (int d=0;d<28;d++){
                 if (profit[m][d][cIndex] > threshold){
                     count++;}
             }
@@ -188,7 +188,26 @@ public class Main {
     }
 
     public static int biggestDailySwing(int month) {
-        return 1234;
+        if (month<0||month>11) {
+            return -99999;
+        }
+        int maxSwing=0;
+        for (int d=0;d<27;d++){
+            int today=0;
+            int tomorrow=0;
+            for (int c=0;c<5;c++) {
+                today += profit[month][d][c];
+                tomorrow += profit[month][d + 1][c];
+            }
+            int diff=today-tomorrow;
+            if (diff<0)  {
+                diff=-diff;// Math.abs yerine(func slaytından alıntı)
+            }
+            if (diff > maxSwing){
+                maxSwing=diff;
+            }
+        }
+        return maxSwing;
     }
 
     public static String compareTwoCommodities(String c1, String c2) {
