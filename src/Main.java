@@ -39,7 +39,13 @@ public class Main {
                     } catch (Exception e)// hata
                         { continue;
                     }
-                    int cIndex = getCommodityIndex(commodity);// commodity'yi int'e çeviriyor
+                    int cIndex = -1;
+                    for (int i = 0; i < commodities.length; i++) { //commodityi inte ceviriyor ama yeni func kullanmadan
+                        if (commodities[i].equals(commodity)) {
+                            cIndex = i;
+                            break;
+                        }
+                    }
                     if (cIndex == -1) continue;// hata
                     if (day < 1 || day > 28) continue;// hata
                     profit[m][day - 1][cIndex] = profitValue;// Bir ayın, gününün, malın profit value'sunu eşitliyor
@@ -49,13 +55,6 @@ public class Main {
                 {
             }
         }
-    }
-
-    private static int getCommodityIndex(String c) {
-        for (int i = 0; i < commodities.length; i++) {
-            if (commodities[i].equals(c)) return i;
-        }
-        return -1;
     }
 
 
@@ -83,6 +82,8 @@ public class Main {
 
 
 
+
+
     public static int totalProfitOnDay(int month, int day) {
         if (day < 1 || day > 28){
             return -99999;} //hata
@@ -94,10 +95,18 @@ public class Main {
         return sum;
     }
 
-    public static int commodityProfitInRange(String commodity, int fromDay, int toDay) {
-        int cIndex = getCommodityIndex(commodity);
-        if (cIndex == -1) return -99999;
 
+
+
+    public static int commodityProfitInRange(String commodity, int fromDay, int toDay) {
+        int cIndex = -1;
+        for (int i = 0; i < commodities.length; i++) {
+            if (commodities[i].equals(commodity)) {
+                cIndex = i;
+                break;
+            }
+        }
+        if (cIndex == -1) return -99999;
         if (fromDay <1||toDay>28||fromDay>toDay){
             return -99999;
     }
@@ -108,6 +117,9 @@ public class Main {
 }
         return sum;
     }
+
+
+
 
     public static int bestDayOfMonth(int month) {
         if (month < 0 || month > 11) {
@@ -132,8 +144,18 @@ public class Main {
         return bestDay;
     }
 
+
+
+
+
     public static String bestMonthForCommodity(String commodity) {
-        int cIndex = getCommodityIndex(commodity);
+        int cIndex = -1;
+        for (int i = 0; i < commodities.length; i++) {
+            if (commodities[i].equals(commodity)) {
+                cIndex = i;
+                break;
+            }
+        }
         if (cIndex == -1){
          return "INVALID_COMMODITY";} //commodity hatasi -1 döndürdüğü için
         int bestMonth = 1;
@@ -155,8 +177,18 @@ public class Main {
         return months[bestMonth]; //return month olmama sebebi stringle calismasi
     }
 
+
+
+
+
     public static int consecutiveLossDays(String commodity) {
-        int cIndex=getCommodityIndex(commodity);
+        int cIndex = -1;
+        for (int i = 0; i < commodities.length; i++) {
+            if (commodities[i].equals(commodity)) {
+                cIndex = i;
+                break;
+            }
+        }
         if (cIndex==-1){
             return -1;}
         int current =0;
@@ -174,8 +206,18 @@ public class Main {
         return best;
     }
 
+
+
+
+
     public static int daysAboveThreshold(String commodity, int threshold){
-        int cIndex=getCommodityIndex(commodity);
+        int cIndex = -1;
+        for (int i = 0; i < commodities.length; i++) {
+            if (commodities[i].equals(commodity)) {
+                cIndex = i;
+                break;
+            }
+        }
         if (cIndex==-1){
             return -1;}
         int count=0;
@@ -187,6 +229,9 @@ public class Main {
         return count;
     }
 
+
+
+
     public static int biggestDailySwing(int month) {
         if (month<0||month>11) {
             return -99999;
@@ -196,23 +241,34 @@ public class Main {
             int today=0;
             int tomorrow=0;
             for (int c=0;c<5;c++) {
-                today += profit[month][d][c];
-                tomorrow += profit[month][d + 1][c];
+                today+=profit[month][d][c];
+                tomorrow+=profit[month][d + 1][c];
             }
             int diff=today-tomorrow;
             if (diff<0)  {
-                diff=-diff;// Math.abs yerine(func slaytından alıntı)
-            }
+                diff=-diff;} // Math.abs yerine(func slaytından alıntı)
             if (diff>maxSwing){
-                maxSwing=diff;
-            }
+                maxSwing=diff;}
         }
-        return maxSwing;
-    }
+        return maxSwing; }
+
+
+
+
 
     public static String compareTwoCommodities(String c1, String c2) {
-        int i1=getCommodityIndex(c1); //int e ceviriyoruz çünkü arrayde cevirmistik
-        int i2=getCommodityIndex(c2);
+        int i1=-1;
+        for (int i=0;i<commodities.length;i++) {
+            if (commodities[i].equals(c1)){
+                i1 = i;
+                break;}
+            }
+        int i2=-1;
+        for (int i=0;i<commodities.length;i++) {
+            if (commodities[i].equals(c2)){
+                i2=i;
+                break;}
+        }
         if (i1==-1||i2==-1) {
             return "INVALID_COMMODITY";
         }
@@ -221,19 +277,20 @@ public class Main {
         for (int m=0;m<12;m++) {
             for (int d=0;d<28;d++) {
                 sum1+=profit[m][d][i1];
-                sum2+=profit[m][d][i2];
-            }
-        }
+                sum2+=profit[m][d][i2];} }
         if (sum1==sum2){
-            return "Equal"; }
+            return "Equal";}
         if (sum1>sum2) {
             return c1+" is better by "+(sum1 - sum2); }
-             return c2+" is better by "+(sum2 - sum1); //else gerek yok cünkü returnlerse bakmiyo diğerlelrine
-    }
+             return c2+" is better by "+(sum2 - sum1); }//else gerek yok cünkü returnlerse bakmiyo diğerlelrine
+
+
+
+
+
     public static String bestWeekOfMonth(int month) {
         if (month<0||month>11){
-            return "INVALID_MONTH";
-        }
+            return "INVALID_MONTH";  }
         int bestWeek=1;
         int bestProfit=0;
         // 1.haftanın toplamı(başlangıç için)
@@ -249,14 +306,24 @@ public class Main {
                     sum+=profit[month][d][c]; //min.value yerine
             if (sum>bestProfit) {
                 bestProfit=sum;
-                bestWeek=w+1;
-            }
+                bestWeek=w+1; }
         }
-        return "Week " +bestWeek;
-    }
+        return "Week " +bestWeek;}
+
+
+
 
     public static void main(String[] args) {
         loadData();
-        System.out.println("Data loaded – ready for queries "+ mostProfitableCommodityInMonth(2));
-    }
+        System.out.println("Data loaded – ready for queries 1:"+ mostProfitableCommodityInMonth(2));//test yapiyoz 1.func
+        System.out.println("Data loaded. Example test 2: " + commodityProfitInRange("Gold" , 2, 6));//test yapiyoz 2.func
+        System.out.println("Data loaded. Example test 3: " + totalProfitOnDay(2, 26)); //test yapiyoz func 3
+        System.out.println("Data loaded. Example test 4: " + bestDayOfMonth(3));//test yapiyoz 4.func
+        System.out.println("Data loaded. Example test 5: " + bestMonthForCommodity("Silver"));//test yapiyoz 5.func
+        System.out.println("Data loaded. Example test 6: " + consecutiveLossDays("Copper"));//test yapiyoz 6.func
+        System.out.println("Data loaded. Example test 7: " + daysAboveThreshold("Oil", 2000));//test yapiyoz 7.func
+        System.out.println("Data loaded. Example test 8: " + biggestDailySwing(9));//test yapiyoz 8.func
+        System.out.println("Data loaded. Example test 9:" + compareTwoCommodities("Wheat", "Gold"));//test yapiyoz 9.func
+        System.out.println("Data loaded. Example test 10: " + bestWeekOfMonth(6));//test yapiyoz 10.func
+        }
 }
